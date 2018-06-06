@@ -1,42 +1,56 @@
-/*
- * all 7 possible pieces in a tetris game
- */
+import { pieces } from "./pieces.js";
+
+export default class Piece {
+    constructor() {
+        this.pos = {
+            x: 0,
+            y: 0
+        };
+        this.hint = {
+            pos: this.pos,
+            matrix: this.matrix,
+        };
+
+        this.matrix = this.getRandomPiece();
+    }
+    getRandomPiece() {
+        let pieceList = Object.keys(pieces),
+            i = Math.floor(Math.random() * pieceList.length) || 0;
+        return pieces[Object.keys(pieces)[i]];
+    }
+    reset() {
+        this.pos = {
+            x: 0,
+            y: 0
+        };
+        this.hint.pos = this.pos;
+        this.matrix = this.getRandomPiece();
+    }
+    rotate(direction) {
+        // counterClockwise : -1, clockWise : 1
+        let len = this.matrix.length,
+            layerCount = Math.floor(len / 2);
+
+        for (let i = 0; i < layerCount; i++) {
+
+            let first = i,
+                last = this.matrix.length - first - 1;
+
+            for (let j = first; j < last; j++) {
+
+                let offset = j - first,
+                    topElement = this.matrix[first][j],
+                    rightElement = this.matrix[j][last],
+                    bottomElement = this.matrix[last][last - offset],
+                    leftElement = this.matrix[last - offset][first];
+
+                this.matrix[j][last] = direction > 0 ? topElement : bottomElement;
+                this.matrix[last][last - offset] = direction > 0 ? rightElement : leftElement;
+                this.matrix[last - offset][first] = direction > 0 ? bottomElement : topElement;
+                this.matrix[first][j] = direction > 0 ? leftElement : rightElement;
+            } // end of for loop
+        }
+    }
+}
 
 
-export const pieces = {
-    t : [
-        [0, 0, 0],
-        [0, 1, 0],
-        [1, 1, 1],
-    ],
-    j : [
-        [0, 0, 0],
-        [2, 0, 0],
-        [2, 2, 2],
-    ],
-    l : [
-        [0, 0, 0],
-        [0, 0, 3],
-        [3, 3, 3],
-    ],
-    i : [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [4, 4, 4, 4],
-        [0, 0, 0, 0],
-    ],
-    o : [
-        [5, 5 ],
-        [5, 5 ]
-    ],
-    s : [
-        [0, 0, 0],
-        [0, 6, 6],
-        [6, 6, 0],
-    ],
-    z : [
-        [0, 0, 0],
-        [7, 7, 0],
-        [0, 7, 7],
-    ]
-};
