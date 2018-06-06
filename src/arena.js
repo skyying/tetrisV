@@ -1,6 +1,7 @@
-import Piece from "./piece.js";
 
-class Arean {
+// a Arean class to control/detect pieces
+
+export default class Arean {
     constructor(col, row) {
         this.row = row,
         this.col = col,
@@ -40,7 +41,7 @@ class Arean {
                     isPieceXOutOfBounds = aX < 0 || aX > this.matrix[y].length - 1,
                     isPieceYOutOfBounds = aY >= this.matrix.length,
                     isPieceFill = m[y][x] !== piece.empty,
-                    isArenaFill = this.matrix[aY] && this.matrix[aY][aX] !== Piece.empty;
+                    isArenaFill = this.matrix[aY] && this.matrix[aY][aX] !== piece.empty;
 
                 if( isPieceFill && isPieceXOutOfBounds ){
                     return {x:true, y: false, any: true};

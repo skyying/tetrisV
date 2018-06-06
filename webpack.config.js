@@ -1,23 +1,22 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     entry:{
-        app : './src/index.js',
-        shape : './src/shape.js',
+        app : "./src/index.js",
     },
-    devtool: 'source-map', 
+    devtool: "source-map", 
     devServer : {
         contentBase : "./dist"
     },
     output : {
-        filename : '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename : "[name].bundle.js",
+        path: path.resolve(__dirname, "dist")
     },
     plugins : [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(["dist"]),
         new HtmlWebpackPlugin({
-            title : 'CHIEN WEN',
+            title : "CHIEN WEN",
             template : "./src/index.html"
         }) 
     ],
@@ -26,22 +25,22 @@ module.exports = {
             {
                 test: /\.css$/,  
                 use : [
-                    'style-loader',
-                    'css-loader'
+                    "style-loader",
+                    "css-loader"
                 ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,  
                 use : [
-                    'file-loader'
+                    "file-loader"
                 ]
             },
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 exclude: /node_modules/,
                 query: {
-                    presets: ['es2015']
+                    presets: ["env"]
                 }
             }
         ]

@@ -2,7 +2,6 @@
 let tetris = document.getElementById('tetris');
 let ctx = tetris.getContext('2d');
 
-
 // get unique points
 
 const matrix = {
@@ -138,6 +137,5 @@ function drawOutline(matrix, offset, canvas){
 }
 
 export {drawOutline};
-
 
 drawOutline(matrix['t'], {x: 4, y: 5}, ctx);

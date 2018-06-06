@@ -1,5 +1,4 @@
-
-const matrix = {
+export const matrix = {
     t : [
         [0, 0, 0],
         [0, 1, 0],
@@ -39,7 +38,7 @@ const matrix = {
 
 
 
-const color = [
+export const color = [
     "null",
     "#F1D73C",
     "#EA3C0A",
@@ -52,4 +51,3 @@ const color = [
 ]
 
 
-export {matrix, color};
