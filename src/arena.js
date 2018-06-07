@@ -5,6 +5,10 @@ export default class Arean {
     constructor(col, row) {
         this.row = row,
         this.col = col,
+        this.pos = {
+            x:0,
+            y:0
+        }
         this.empty = 0,
         this.matrix = this.create();
     }
@@ -40,8 +44,8 @@ export default class Arean {
                     aX = piece.pos.x + x,
                     isPieceXOutOfBounds = aX < 0 || aX > this.matrix[y].length - 1,
                     isPieceYOutOfBounds = aY >= this.matrix.length,
-                    isPieceFill = m[y][x] !== piece.empty,
-                    isArenaFill = this.matrix[aY] && this.matrix[aY][aX] !== piece.empty;
+                    isPieceFill = m[y][x] !== 0,
+                    isArenaFill = this.matrix[aY] && this.matrix[aY][aX] !== 0;
 
                 if( isPieceFill && isPieceXOutOfBounds ){
                     return {x:true, y: false, any: true};

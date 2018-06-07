@@ -3,7 +3,7 @@ export const THEME = [
     "#F1D73C",
     "#EA3C0A",
     "#00824D",
-    "#1D1D1D",
+    "red",
     "#00824D",
     "#F1D73C",
     "#0271BF",

@@ -18,6 +18,10 @@ export default class Piece {
             i = Math.floor(Math.random() * pieceList.length) || 0;
         return pieces[Object.keys(pieces)[i]];
     }
+    setPos(x, y){
+        this.pos.x = x;
+        this.pos.y = y;
+    }
     reset() {
         this.pos = {
             x: 0,

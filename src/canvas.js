@@ -7,7 +7,9 @@ export default class CanvasTool {
     constructor(parent, width, height){
         this.parent = parent;
         this.ctx = this.init(width, height);
-        this.drawRect("black", [0, 0, width, height]);
+        this.width = width;
+        this.height = height;
+        this.drawRect("black", 0, 0, width, height);
         this.ctx.scale(SIZE.SCALER, SIZE.SCALER);
     }
     init(w, h){
@@ -17,17 +19,18 @@ export default class CanvasTool {
         this.parent.appendChild(c);
         return c.getContext("2d");
     }
-    drawRect(color, attr){
+    drawRect(color, x, y, w, h){
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(...attr);
+        this.ctx.fillRect(x, y, w, h);
     }
     draw(piece){
-        for(let y = 0; y < piece.matrix; y++){
-            for(let x = 0; x < piece.matrix[y]; x++){
+        for(let y = 0; y < piece.matrix.length; y++){
+            for(let x = 0; x < piece.matrix[0].length; x++){
+                // console.log(x, y);
                 let val = piece.matrix[y][x];
-                if( val !== piece.empty ){
-                    let attr = [ x + (piece.pos.x || 0) , y + (piece.pos.y || 0), 1, 1];
-                    this.drawRect("yellow", attr);
+                // console.log("piece.pos.x", piece.pos.x );
+                if( val !== 0){
+                    this.drawRect("yellow", piece.pos.x + x, piece.pos.y + y, 1, 1);
                 }
             }
         }
