@@ -10,25 +10,30 @@ const drawTetris = () => {
     cns.drawRect("#eeeeee", 0, 0, cns.width, cns.height);
     cns.draw(player);
     cns.draw(playground);
+    // player.updateHint(playground);
+    // cns.draw(player.hint);
 };
 
 const drop = () => {
     player.pos.y++;
-    let hit = playground.isHit(player);
-    if (hit.y) {
+    if(playground.isHit(player).y) {
         player.pos.y--;
-        playground.merge(player);
-        playground.sweep();
+        clean(player);
     }
 };
 
+const clean = (piece) => {
+    playground.merge(piece);
+    playground.sweep(piece);
+    piece.reset();
+};
 
 const move = (dir) => {
     player.pos.x += dir;
-    let hit = playground.isHit(player).x;
-    if (hit) {
+    if (playground.isHit(player).x) {
         player.pos.x -= dir;
     }
+    // player.updateHint(playground);
 };
 
 
@@ -41,16 +46,28 @@ const rotate = (dir) => {
             player.pos.x++; 
         }
     }
-}
+};  
 
 
+const speedyDrop = () => {
+    while(!playground.isHit(player).y){
+        player.pos.y++; 
+    }
+    player.pos.y--;
+    clean(player);
+    // player.updateHit(playground);
+};
+
+const gameOver = (piece) => {
+    return playground.isHit(piece).y && piece.pos.y === 0;
+};
 
 let start = new Date().getTime();
 const update = () => {
     let current = new Date().getTime(),
         dt = current - start,
         delay = 1000;
-    if (dt >= delay) {
+    if (dt >= delay ) {
         drop();
         start = new Date().getTime();
     }
@@ -58,9 +75,6 @@ const update = () => {
     requestAnimationFrame(update);
 };
 update();
-
-// 
-
 
 
 document.addEventListener("keydown", e => {
@@ -73,10 +87,11 @@ document.addEventListener("keydown", e => {
     } else if (e.code === "ArrowUp" || e.code === "KeyK") {
         rotate(1);
     } else if (e.code === "Space") {
-        //
-    } else if (e.code === "KeyP") {
-        //
-    } else if (e.code === "KeyS") {
-        //
+        speedyDrop();
     }
+    //} else if (e.code === "KeyP") {
+    //    //
+    //} else if (e.code === "KeyS") {
+    //    //
+    //}
 });

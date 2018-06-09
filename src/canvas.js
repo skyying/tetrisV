@@ -30,7 +30,7 @@ export default class CanvasTool {
                 let val = piece.matrix[y][x];
                 // console.log("piece.pos.x", piece.pos.x );
                 if( val !== 0){
-                    this.drawRect("yellow", piece.pos.x + x, piece.pos.y + y, 1, 1);
+                    this.drawRect(THEME[val], piece.pos.x + x, piece.pos.y + y, 1, 1);
                 }
             }
         }

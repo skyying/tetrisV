@@ -7,5 +7,5 @@ export const THEME = [
     "#00824D",
     "#F1D73C",
     "#0271BF",
-    "rgba(255, 255, 255, 0.4)" //color for hint
+    "#E4FFC9"//color for hint
 ];

@@ -8,7 +8,7 @@ export default class Arean {
         this.pos = {
             x:0,
             y:0
-        }
+        };
         this.empty = 0,
         this.matrix = this.create();
     }
@@ -18,22 +18,29 @@ export default class Arean {
     }
     reset(){
         this.matrix = this.create();
+        this.pos = {
+            x: 0,
+            y: 0
+        };
     }
-    sweep(){
+    sweep(piece){
         let len = this.matrix[0].length;
-        for(let i = 0; i < this.matrix.length; i++){
-            if(this.matrix[i].every((val) => val !== this.empty )){
+        for(let i = piece.pos.y; i < piece.pos.y + piece.matrix.length; i++){
+            if( i < this.matrix.length && this.matrix[i].indexOf(0) === -1){
                 this.matrix.splice(i, 1);
-                this.matrix.unshift(Array.from({length:len}).fill(this.empty));
+                this.matrix.unshift(Array.from({length:len}).fill(0));
             }
         }
     }
     merge(piece){
-        for(let y = 0; y < piece.matrix.length; y++){
-            for(let x = 0; x < piece.matrix[y].length; x++){
-                this.matrix[piece.pos.y + y][piece.pos.x + x] = piece.matrix[y][x];
-            }
-        }
+        piece.matrix.forEach((row, y) => {
+            row.forEach((val, x) =>{
+                if(val !== 0) {
+                    this.matrix[piece.pos.y + y][piece.pos.x + x] = val;
+                }
+            });
+        });
+        // console.table(this.matrix);
     }
     isHit(piece){
         let m = piece.matrix;
@@ -58,7 +65,6 @@ export default class Arean {
         return {x: false, y: false, any: false};
     }
 }
-
 
 
 
