@@ -2,16 +2,19 @@ import "./style.css";
 import {
     playground,
     player,
-    cns
+    cns,
+    playerHint 
 } from "./element.js";
+
+
 
 const drawTetris = () => {
     //background
     cns.drawRect("#eeeeee", 0, 0, cns.width, cns.height);
     cns.draw(player);
     cns.draw(playground);
-    // player.updateHint(playground);
-    // cns.draw(player.hint);
+    playerHint.dropHint(player, playground);
+    cns.draw(playerHint);
 };
 
 const drop = () => {
@@ -26,6 +29,7 @@ const clean = (piece) => {
     playground.merge(piece);
     playground.sweep(piece);
     piece.reset();
+    playerHint.update(player);
 };
 
 const move = (dir) => {
@@ -33,12 +37,13 @@ const move = (dir) => {
     if (playground.isHit(player).x) {
         player.pos.x -= dir;
     }
-    // player.updateHint(playground);
+    playerHint.dropHint(player, playground);
 };
 
 
 const rotate = (dir) => {
     player.rotate(dir);
+    playerHint.rotate(dir);
     while(playground.isHit(player).x){
         if(player.pos.x > 0){
             player.pos.x--; 
