@@ -1,4 +1,6 @@
-import "./style.css";
+
+import "./style/style.scss";
+import { tetrisBg } from "./theme.js";
 import {
     playground,
     player,
@@ -6,29 +8,48 @@ import {
     playerHint 
 } from "./element.js";
 
-
+let animation;
 
 const drawTetris = () => {
     //background
-    cns.drawRect("#eeeeee", 0, 0, cns.width, cns.height);
+    cns.drawRect(tetrisBg, 0, 0, cns.width, cns.height);
     cns.draw(player);
     cns.draw(playground);
     playerHint.dropHint(player, playground);
     cns.draw(playerHint);
 };
 
-const drop = () => {
-    player.pos.y++;
-    if(playground.isHit(player).y) {
-        player.pos.y--;
-        clean(player);
+const drop = (cb) => {
+    if(isOver()){
+        stop();
+    }else{
+        player.pos.y++;
+        if(playground.isHit(player).y) {
+            player.pos.y--;
+            cb();
+        }
     }
 };
 
-const clean = (piece) => {
-    playground.merge(piece);
-    playground.sweep(piece);
-    piece.reset();
+
+const stop = () => {
+    cns.ctx.save();
+    window.cancelAnimationFrame(animation);
+};
+
+
+const isOver = () => {
+    let over = player.pos.y === playerHint.pos.y && playerHint.pos.y <= player.getDefaultY();
+    if(over){
+        return true;
+    }
+    return false;
+};
+
+const clean = () => {
+    playground.merge(player);
+    playground.sweep(player);
+    player.reset();
     playerHint.update(player);
 };
 
@@ -39,7 +60,6 @@ const move = (dir) => {
     }
     playerHint.dropHint(player, playground);
 };
-
 
 const rotate = (dir) => {
     player.rotate(dir);
@@ -53,50 +73,55 @@ const rotate = (dir) => {
     }
 };  
 
-
 const speedyDrop = () => {
     while(!playground.isHit(player).y){
         player.pos.y++; 
     }
     player.pos.y--;
-    clean(player);
-    // player.updateHit(playground);
-};
-
-const gameOver = (piece) => {
-    return playground.isHit(piece).y && piece.pos.y === 0;
+    clean();
 };
 
 let start = new Date().getTime();
+
 const update = () => {
     let current = new Date().getTime(),
         dt = current - start,
         delay = 1000;
-    if (dt >= delay ) {
-        drop();
+    if ( dt >= delay ) {
+        drop(clean);
         start = new Date().getTime();
     }
     drawTetris();
-    requestAnimationFrame(update);
+    animation = requestAnimationFrame(update);
 };
+
+const reStart= () => {
+    player.reset();  
+    playground.reset();
+    cns.ctx.restore();
+    update();
+};
+
 update();
 
 
 document.addEventListener("keydown", e => {
-    if (e.code === "ArrowLeft" || e.code === "KeyH") {
-        move(-1);
-    } else if (e.code === "ArrowRight" || e.code === "KeyL") {
-        move(1);
-    } else if (e.code === "ArrowDown" || e.code === "KeyJ") {
-        drop();
-    } else if (e.code === "ArrowUp" || e.code === "KeyK") {
-        rotate(1);
-    } else if (e.code === "Space") {
-        speedyDrop();
+    if (e.code === "KeyS"){
+        reStart();
     }
-    //} else if (e.code === "KeyP") {
-    //    //
-    //} else if (e.code === "KeyS") {
-    //    //
-    //}
+    if(isOver()){
+        stop();
+    }else{
+        if (e.code === "ArrowLeft" || e.code === "KeyH") {
+            move(-1);
+        } else if (e.code === "ArrowRight" || e.code === "KeyL") {
+            move(1);
+        } else if (e.code === "ArrowDown" || e.code === "KeyJ") {
+            drop(clean);
+        } else if (e.code === "ArrowUp" || e.code === "KeyK") {
+            rotate(1);
+        } else if (e.code === "Space") {
+            speedyDrop();
+        }
+    }
 });

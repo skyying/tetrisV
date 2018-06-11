@@ -16,17 +16,17 @@ module.exports = {
     plugins : [
         new CleanWebpackPlugin(["dist"]),
         new HtmlWebpackPlugin({
-            title : "CHIEN WEN",
             template : "./src/index.html"
         }) 
     ],
     module : {
         rules: [
             {
-                test: /\.css$/,  
+                test: /\.s?css$/,  
                 use : [
                     "style-loader",
-                    "css-loader"
+                    "css-loader",
+                    "sass-loader"
                 ]
             },
             {

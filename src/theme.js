@@ -7,5 +7,7 @@ export const THEME = [
     "#00824D",
     "#F1D73C",
     "#0271BF",
-    "#E4FFC9"//color for hint
+    "#E4FFC9",//color for hint
 ];
+
+export const tetrisBg = "#E2E3F3";

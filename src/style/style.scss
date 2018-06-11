@@ -1,0 +1,24 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100i.ttf');
+
+$primary-color: #E2E3F3;
+$secondary-color: #0A78FF;
+$default-font : 'Roboto';
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color :  $primary-color;
+}
+#main {
+
+     
+    canvas {
+        border-radius: 3px;
+        border: 6px solid $secondary-color;
+    }
+}
+
+

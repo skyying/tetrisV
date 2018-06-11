@@ -14,10 +14,17 @@ export default class Piece {
             i = Math.floor(Math.random() * pieceList.length) || 0;
         return pieces[Object.keys(pieces)[i]];
     }
+    getDefaultY(){
+        for(let i = this.matrix.length - 1; i >= 0 ; i--){
+            if(this.matrix[i].some((x) => x > 0)) {
+                return 0 - (i + 1); 
+            }
+        } 
+    }
     resetPos() {
         return {
             x: Math.floor((SIZE.ARENA_WIDTH - this.matrix.length) / 2),
-            y: 0
+            y: this.getDefaultY()
         };
     }
     reset() {

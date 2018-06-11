@@ -1,4 +1,3 @@
-
 // a Arean class to control/detect pieces
 
 export default class Arean {
@@ -6,46 +5,52 @@ export default class Arean {
         this.row = row,
         this.col = col,
         this.pos = {
-            x:0,
-            y:0
+            x: 0,
+            y: 0
         };
         this.empty = 0,
         this.matrix = this.create();
     }
     create() {
-        return Array.from({length: this.row})
-            .map( row => Array.from({length:this.col}).fill(this.empty));
+        return Array.from({ length: this.row })
+            .map(row => Array.from({ length: this.col })
+            .fill(this.empty));
     }
-    reset(){
+    reset() {
         this.matrix = this.create();
         this.pos = {
             x: 0,
             y: 0
         };
     }
-    sweep(piece){
+    sweep(piece) {
         let len = this.matrix[0].length;
-        for(let i = piece.pos.y; i < piece.pos.y + piece.matrix.length; i++){
-            if( i < this.matrix.length && this.matrix[i].indexOf(0) === -1){
-                this.matrix.splice(i, 1);
-                this.matrix.unshift(Array.from({length:len}).fill(0));
+        for (let i = piece.pos.y; i < piece.pos.y + piece.matrix.length; i++) {
+            if (i >= 0) {
+                if (i < this.matrix.length && this.matrix[i].indexOf(0) === -1) {
+                    this.matrix.splice(i, 1);
+                    this.matrix.unshift(Array.from({
+                        length: len
+                    }).fill(0));
+                }
             }
         }
     }
-    merge(piece){
+    merge(piece) {
         piece.matrix.forEach((row, y) => {
-            row.forEach((val, x) =>{
-                if(val !== 0) {
-                    this.matrix[piece.pos.y + y][piece.pos.x + x] = val;
-                }
-            });
+            if ((piece.pos.y + y) >= 0) {
+                row.forEach((val, x) => {
+                    if (val !== 0) {
+                        this.matrix[piece.pos.y + y][piece.pos.x + x] = val;
+                    }
+                });
+            }
         });
-        // console.table(this.matrix);
     }
-    isHit(piece){
+    isHit(piece) {
         let m = piece.matrix;
-        for(let y = 0; y < m.length; y++){
-            for(let x = 0; x < m[y].length; x++){
+        for (let y = 0; y < m.length; y++) {
+            for (let x = 0; x < m[y].length; x++) {
 
                 let aY = piece.pos.y + y,
                     aX = piece.pos.x + x,
@@ -54,18 +59,26 @@ export default class Arean {
                     isPieceFill = m[y][x] !== 0,
                     isArenaFill = this.matrix[aY] && this.matrix[aY][aX] !== 0;
 
-                if( isPieceFill && isPieceXOutOfBounds ){
-                    return {x:true, y: false, any: true};
+                if (isPieceFill && isPieceXOutOfBounds) {
+                    return {
+                        x: true,
+                        y: false,
+                        any: true
+                    };
                 }
-                if(isPieceFill && (isArenaFill || isPieceYOutOfBounds)){
-                    return {x:false, y: true, any: true};
+                if (isPieceFill && (isArenaFill || isPieceYOutOfBounds)) {
+                    return {
+                        x: false,
+                        y: true,
+                        any: true
+                    };
                 }
             }
         }
-        return {x: false, y: false, any: false};
+        return {
+            x: false,
+            y: false,
+            any: false
+        };
     }
 }
-
-
-
-
