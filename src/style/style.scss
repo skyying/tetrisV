@@ -3,22 +3,112 @@
 
 $primary-color: #E2E3F3;
 $secondary-color: #0A78FF;
+$dark: #282C34;
 $default-font : 'Roboto';
+$leftWidth: 244px;
+$midHeight: 244px;
+$smallHeigt: 80px;
+$colHeight: 520px;
+$defaultSpacing : 20px;
 
-html {
+html, body {
     height: 100%;
 }
 
 body {
+    margin: 0;
+    font-family: $default-font;
     background-color :  $primary-color;
 }
 #main {
-
-     
-    canvas {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    canvas, #instuction, #score  {
         border-radius: 3px;
-        border: 6px solid $secondary-color;
+        border: 7px solid $secondary-color;
+    }
+    
+    .flex {
+        display: flex; 
+    }
+    
+    .left, .right {
+        display: flex; 
+    }
+
+    .left {
+        flex-direction: column;
+        width: $leftWidth;
+        margin-right: 50px;
+        .top{
+            height: calc(100% - 255px - 80px); 
+        }
+        img {
+            height: 116px;
+            width: 209px;
+            margin: auto;
+        }
+    }
+    .right{
+        flex-direction: column;
     }
 }
+
+
+.flex-container{
+    width: auto;
+    display: flex;
+}
+
+.row{
+    flex-direction: row;
+}
+
+.col{
+    flex-direction: column;
+}
+
+#instuction, #score {
+    width: $leftWidth;
+}
+
+#instuction {
+    height: $midHeight; 
+    background-color: $dark;
+
+    h2 {
+        padding-left: $defaultSpacing;
+        color: $secondary-color;
+    }
+    .flex-container {
+        width: 100%;
+    }
+}
+
+#score {
+    background-color: $dark;
+    height: $smallHeigt;
+    color: $secondary-color;
+    font-size: 6vw;
+    margin-top: $defaultSpacing ;
+    text-align: center;
+    
+    span{
+        margin: auto; 
+    }
+}
+
+
+
+
+
 
 

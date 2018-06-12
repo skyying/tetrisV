@@ -10,4 +10,4 @@ export const THEME = [
     "#E4FFC9",//color for hint
 ];
 
-export const tetrisBg = "#E2E3F3";
+export const tetrisBg = "#282C34";

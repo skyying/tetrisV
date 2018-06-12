@@ -1,4 +1,4 @@
-
+import infoImg from "./img/info.png";
 import "./style/style.scss";
 import { tetrisBg } from "./theme.js";
 import {
@@ -8,7 +8,17 @@ import {
     playerHint 
 } from "./element.js";
 
+
+
+// load image
+const info = document.getElementById("info");
+info.src = infoImg;
+
+
+// set variable for canvas update
 let animation;
+
+
 
 const drawTetris = () => {
     //background
@@ -30,7 +40,6 @@ const drop = (cb) => {
         }
     }
 };
-
 
 const stop = () => {
     cns.ctx.save();

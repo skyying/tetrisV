@@ -23,7 +23,6 @@ export default class Hint extends Piece {
         }
         return m;
     }
-
     //set hint's y position to simulate dropped
     dropHint(owner, arena) {
         let n = owner.pos.x,
