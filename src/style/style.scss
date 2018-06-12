@@ -31,7 +31,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    canvas, #instuction, #score  {
+    canvas, #instuction, #scoreWrapper  {
         border-radius: 3px;
         border: 7px solid $secondary-color;
     }
@@ -76,7 +76,7 @@ body {
     flex-direction: column;
 }
 
-#instuction, #score {
+#instuction, #scoreWrapper {
     width: $leftWidth;
 }
 
@@ -93,15 +93,15 @@ body {
     }
 }
 
-#score {
+#scoreWrapper {
     background-color: $dark;
     height: $smallHeigt;
-    color: $secondary-color;
-    font-size: 4vw; 
     margin-top: $defaultSpacing ;
     text-align: center;
-    
+
     span{
+        color: $secondary-color;
+        font-size: 4vw; 
         margin: auto; 
     }
 }

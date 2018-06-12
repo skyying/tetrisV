@@ -3,19 +3,28 @@
 export default class Arean {
     constructor(col, row) {
         this.row = row,
-            this.col = col,
-            this.pos = {
-                x: 0,
-                y: 0
-            };
+        this.col = col,
+        this.pos = {
+            x: 0,
+            y: 0
+        };
         this.empty = 0,
-            this.matrix = this.create();
+        this.matrix = this.create();
         this.over = false;
+        this.scoreBoard = {
+            total: 0,
+            totalLine: 0,
+            currentSweepLines: 0
+        };
+        this.scoreRule = {
+            scorePerLine: 100,
+            combo : 1.5
+        };
     }
     create() {
         return Array.from({ length: this.row })
             .map(row => Array.from({ length: this.col })
-                .fill(this.empty));
+            .fill(this.empty));
     }
     reset() {
         this.matrix = this.create();
@@ -24,12 +33,25 @@ export default class Arean {
             x: 0,
             y: 0
         };
+        this.scoreBoard = {
+            total : 0,
+            line: 0,
+            currentSweepLines: 0
+        };
+    }
+    updateScore(){
+        let combo = this.scoreBoard.currentSweepLines > 1 ? Math.pow(this.scoreRule.combo, this.scoreBoard.currentSweepLines) : this.scoreRule.combo; 
+        this.scoreBoard.total += Math.floor(this.scoreRule.scorePerLine * this.scoreBoard.currentSweepLines * combo);
+        this.scoreBoard.totalLine += this.currentSweepLines;
+        this.currentSweepLines = 0;
     }
     sweep(piece) {
+        this.scoreBoard.currentSweepLines = 0;
         let len = this.matrix[0].length;
         for (let i = piece.pos.y; i < piece.pos.y + piece.matrix.length; i++) {
             if (i >= 0) {
                 if (i < this.matrix.length && this.matrix[i].indexOf(0) === -1) {
+                    this.scoreBoard.currentSweepLines++;
                     this.matrix.splice(i, 1);
                     this.matrix.unshift(Array.from({
                         length: len
@@ -41,15 +63,13 @@ export default class Arean {
     merge(piece) {
         piece.matrix.forEach((row, y) => {
             row.forEach((val, x) => {
-                if(val !== 0){
+                if (val !== 0) {
                     try {
                         this.matrix[piece.pos.y + y][piece.pos.x + x] = val;
-                    }
-                    catch(err) {
+                    } catch (err) {
                         this.over = true;
                         return;
                     }
-
                 }
             });
         });

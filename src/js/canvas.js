@@ -1,4 +1,4 @@
-import { SIZE } from "./size.js";
+import { SIZE } from "./size.js"
 import Piece from "./piece.js";
 import Arean from "./arena.js";
 import { THEME } from "./theme.js";

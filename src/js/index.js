@@ -1,67 +1,53 @@
-import infoImg from "./img/info.png";
-import "./style/style.scss";
+import infoImg from "../img/info.png";
+import "../style/style.scss";
 import { tetrisBg } from "./theme.js";
 import {
     playground,
     player,
     cns,
-    playerHint 
+    playerHint
 } from "./element.js";
 
 
 
 // load image
+const scoreWrapper = document.getElementById("scoreWrapper");
+const score = document.getElementById("score");
+
+
+// add instruction image
 const info = document.getElementById("info");
 info.src = infoImg;
-
-
-// set variable for canvas update
-let animation, pause = false;
-
-
-
-const drawTetris = () => {
-    //background
-    cns.drawRect(tetrisBg, 0, 0, cns.width, cns.height);
-    cns.draw(player);
-    cns.draw(playground);
-    playerHint.dropHint(player, playground);
-    cns.draw(playerHint);
-};
-
-const drop = (cb) => {
-    // if(isOver()){
-    //     stop();
-    // }else{
-    player.pos.y++;
-    if(playground.isHit(player).y) {
-        player.pos.y--;
-        cb();
-    }
-    // }
-};
-
-
-
-
-let score = document.getElementById("score");
-
-
-
-const isOver = () => {
-    let over = playground.over || (player.pos.y === playerHint.pos.y && playerHint.pos.y <= player.getDefaultY());
-    if(over){
-        console.log("playground.over", playground.over);
-        return true;
-    }
-    return false;
-};
 
 const clean = () => {
     playground.merge(player);
     playground.sweep(player);
+    getScore(score);
+    resize();
     player.reset();
     playerHint.update(player);
+};
+
+
+const drawTetris = () => {
+    cns.drawRect(tetrisBg, 0, 0, cns.width, cns.height);
+    cns.draw(playground);
+    playerHint.dropHint(player, playground);
+    cns.draw(playerHint);
+    cns.draw(player);
+};
+
+const drop = (callback) => {
+    player.pos.y++;
+    if(playground.isHit(player).y) {
+        player.pos.y--;
+        callback();
+    }
+};
+
+const getScore = (element) => {
+    playground.updateScore();
+    element.innerHTML = playground.scoreBoard.total; 
 };
 
 const move = (dir) => {
@@ -96,7 +82,8 @@ let start = new Date().getTime();
 
 const update = () => {
     if(playground.over){
-        score.innerHTML = "GAME OVER";
+        score.innerHTML = "GAME OVER,<br/> press anykey to start";
+        resize();
         return; 
     }
 
@@ -109,24 +96,42 @@ const update = () => {
     }
 
     drawTetris();
-    animation = requestAnimationFrame(update);
+    requestAnimationFrame(update);
 };
 
-
-const reStart= () => {
+const restart= () => {
     player.reset();  
-    score.innerHTML = ""
+    score.innerHTML = "";
     playground.reset();
+    resize();
     update();
 };
 
 
 
+const resize = () => {
+    let currentSize, step = 2,
+        margin = 30,
+        letterCount = 10,
+        unit = "px",
+        defaultFontSize = "50px";
+
+    while ((scoreWrapper.offsetWidth - margin) < score.offsetWidth) {
+        currentSize = parseFloat(window.getComputedStyle(score, null).getPropertyValue("font-size"));
+        score.style.fontSize = (currentSize - step) + unit;
+    }
+
+    if (score.innerHTML.length < letterCount) {
+        score.style.fontSize = defaultFontSize;
+    }
+};
+
+
+
 document.addEventListener("keydown", e => {
-    if (e.code === "KeyS"){
-        reStart();
-    }else if(e.code==="KeyP"){
-        stop();
+
+    if(playground.over){
+        restart(); 
     }
 
     if (e.code === "ArrowLeft" || e.code === "KeyH") {
@@ -140,7 +145,7 @@ document.addEventListener("keydown", e => {
     } else if (e.code === "Space") {
         speedyDrop();
     }
-    // }
+
 });
 
 

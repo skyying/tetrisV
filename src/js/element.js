@@ -3,12 +3,9 @@ import Arena from "./arena.js";
 import Piece from "./piece.js";
 import CanvasTool from "./canvas.js";
 import Hint from "./hint.js";
-import infoImg from "./img/info.png";
 
 // dom element
 const canvas = document.getElementById("canvas");
-const info = document.getElementById("info");
-
 
 // objects
 export const playground = new Arena(SIZE.ARENA_WIDTH, SIZE.ARENA_HEIGHT);

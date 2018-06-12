@@ -3,7 +3,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     entry:{
-        app : "./src/index.js",
+        app : "./src/js/index.js",
     },
     devtool: "source-map", 
     devServer : {
@@ -16,8 +16,9 @@ module.exports = {
     plugins : [
         new CleanWebpackPlugin(["dist"]),
         new HtmlWebpackPlugin({
-            template : "./src/index.html"
-        }) 
+            template : "./src/index.html",
+            favicon: "./src/img/favicon.ico"
+        })
     ],
     module : {
         rules: [
@@ -30,7 +31,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,  
+                test: /\.(png|svg|jpg|gif|ico)$/,  
                 use : [
                     "file-loader"
                 ]

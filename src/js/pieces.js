@@ -1,5 +1,5 @@
 /*
- * all 7 possible pieces in a tetris game
+ * all pieces in a tetris game
  */
 
 
