@@ -3,21 +3,23 @@
 export default class Arean {
     constructor(col, row) {
         this.row = row,
-        this.col = col,
-        this.pos = {
-            x: 0,
-            y: 0
-        };
+            this.col = col,
+            this.pos = {
+                x: 0,
+                y: 0
+            };
         this.empty = 0,
-        this.matrix = this.create();
+            this.matrix = this.create();
+        this.over = false;
     }
     create() {
         return Array.from({ length: this.row })
             .map(row => Array.from({ length: this.col })
-            .fill(this.empty));
+                .fill(this.empty));
     }
     reset() {
         this.matrix = this.create();
+        this.over = false;
         this.pos = {
             x: 0,
             y: 0
@@ -38,13 +40,18 @@ export default class Arean {
     }
     merge(piece) {
         piece.matrix.forEach((row, y) => {
-            if ((piece.pos.y + y) >= 0) {
-                row.forEach((val, x) => {
-                    if (val !== 0) {
+            row.forEach((val, x) => {
+                if(val !== 0){
+                    try {
                         this.matrix[piece.pos.y + y][piece.pos.x + x] = val;
                     }
-                });
-            }
+                    catch(err) {
+                        this.over = true;
+                        return;
+                    }
+
+                }
+            });
         });
     }
     isHit(piece) {

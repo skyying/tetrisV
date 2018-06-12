@@ -16,7 +16,7 @@ info.src = infoImg;
 
 
 // set variable for canvas update
-let animation;
+let animation, pause = false;
 
 
 
@@ -30,26 +30,28 @@ const drawTetris = () => {
 };
 
 const drop = (cb) => {
-    if(isOver()){
-        stop();
-    }else{
-        player.pos.y++;
-        if(playground.isHit(player).y) {
-            player.pos.y--;
-            cb();
-        }
+    // if(isOver()){
+    //     stop();
+    // }else{
+    player.pos.y++;
+    if(playground.isHit(player).y) {
+        player.pos.y--;
+        cb();
     }
+    // }
 };
 
-const stop = () => {
-    cns.ctx.save();
-    window.cancelAnimationFrame(animation);
-};
+
+
+
+let score = document.getElementById("score");
+
 
 
 const isOver = () => {
-    let over = player.pos.y === playerHint.pos.y && playerHint.pos.y <= player.getDefaultY();
+    let over = playground.over || (player.pos.y === playerHint.pos.y && playerHint.pos.y <= player.getDefaultY());
     if(over){
+        console.log("playground.over", playground.over);
         return true;
     }
     return false;
@@ -93,6 +95,11 @@ const speedyDrop = () => {
 let start = new Date().getTime();
 
 const update = () => {
+    if(playground.over){
+        score.innerHTML = "GAME OVER";
+        return; 
+    }
+
     let current = new Date().getTime(),
         dt = current - start,
         delay = 1000;
@@ -100,37 +107,42 @@ const update = () => {
         drop(clean);
         start = new Date().getTime();
     }
+
     drawTetris();
     animation = requestAnimationFrame(update);
 };
 
+
 const reStart= () => {
     player.reset();  
+    score.innerHTML = ""
     playground.reset();
-    cns.ctx.restore();
     update();
 };
 
-update();
 
 
 document.addEventListener("keydown", e => {
     if (e.code === "KeyS"){
         reStart();
-    }
-    if(isOver()){
+    }else if(e.code==="KeyP"){
         stop();
-    }else{
-        if (e.code === "ArrowLeft" || e.code === "KeyH") {
-            move(-1);
-        } else if (e.code === "ArrowRight" || e.code === "KeyL") {
-            move(1);
-        } else if (e.code === "ArrowDown" || e.code === "KeyJ") {
-            drop(clean);
-        } else if (e.code === "ArrowUp" || e.code === "KeyK") {
-            rotate(1);
-        } else if (e.code === "Space") {
-            speedyDrop();
-        }
     }
+
+    if (e.code === "ArrowLeft" || e.code === "KeyH") {
+        move(-1);
+    } else if (e.code === "ArrowRight" || e.code === "KeyL") {
+        move(1);
+    } else if (e.code === "ArrowDown" || e.code === "KeyJ") {
+        drop(clean);
+    } else if (e.code === "ArrowUp" || e.code === "KeyK") {
+        rotate(1);
+    } else if (e.code === "Space") {
+        speedyDrop();
+    }
+    // }
 });
+
+
+
+update();

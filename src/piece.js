@@ -8,6 +8,7 @@ export default class Piece {
     constructor() {
         this.matrix = this.getRandomPiece();
         this.pos = this.resetPos();
+        this.over = false; 
     }
     getRandomPiece() {
         let pieceList = Object.keys(pieces),
