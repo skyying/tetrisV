@@ -1,5 +1,6 @@
-import infoImg from "../img/info.png";
-import "../style/style.scss";
+import "./img/favicon.ico";
+import infoImg from "./img/info.png";
+import "./style/style.scss";
 import { tetrisBg } from "./theme.js";
 import {
     playground,
@@ -86,6 +87,7 @@ const update = () => {
         resize();
         return; 
     }
+
     let current = new Date().getTime(),
         dt = current - start,
         delay = 1000;
@@ -93,6 +95,7 @@ const update = () => {
         drop(clean);
         start = new Date().getTime();
     }
+
     drawTetris();
     requestAnimationFrame(update);
 };
