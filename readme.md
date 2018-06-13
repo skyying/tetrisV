@@ -8,7 +8,7 @@ This game is build with `html5`, `css3`, `javascript es6`.
 
 
 # Screenshot
-![TetrisV](./image/tetrisv.png)
+![TetrisV](./images/tetrisv.png)
 
 
 
