@@ -58,6 +58,6 @@ As usual, please report on the issue tracker
 
 
 # Roadmap
-[] RWD
-[] puase/resume
-[] `zz` to end the game
+* RWD
+* puase/resume
+* `zz` to end the game
