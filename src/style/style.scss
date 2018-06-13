@@ -1,6 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:100i.ttf');
-
+$main-grad: linear-gradient(-180deg, #1D1D24 0%, #000B35 53%, #1D1D24 98%);
 $primary-color: #E2E3F3;
 $secondary-color: #0A78FF;
 $dark: #282C34;
@@ -10,16 +10,52 @@ $midHeight: 244px;
 $smallHeigt: 80px;
 $colHeight: 520px;
 $defaultSpacing : 20px;
+$sh-box: 0 0 60px 0 rgba(137,137,137,0.50);
+// $shadow: 0 80px 0 rgba(137,137,137,0.60);
 
-html, body {
+
+html, body{ 
     height: 100%;
 }
+
 
 body {
     margin: 0;
     font-family: $default-font;
-    background-color :  $primary-color;
+    background: $main-grad;
+    overflow: hidden; 
 }
+
+#bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden; 
+}
+
+.bg-abs-left, .bg-abs-right{
+    position: absolute;
+    z-index: -1;
+    width: 2126px;
+    height: 509px;
+    background: linear-gradient(55deg, #002eff08 1%, #27272738 51%);
+}
+
+.bg-abs-left{
+    left: -500px;
+    top: -500px;
+    transform: rotate(45deg);
+    transform-origin: left;
+}
+
+.bg-abs-right{
+    right: -100px;
+    bottom: 0px;
+    transform: rotate(-20deg);
+    transform-origin: right;
+    height: 1000px;
+}
+
 #main {
     height: 100%;
     padding: 0;
@@ -31,7 +67,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    canvas, #instuction, #scoreWrapper  {
+    #canvas, #instuction, #scoreWrapper  {
+        box-shadow: $sh-box;
         border-radius: 3px;
         border: 7px solid $secondary-color;
     }
@@ -105,10 +142,6 @@ body {
         margin: auto; 
     }
 }
-
-
-
-
 
 
 

@@ -6,19 +6,23 @@ import {
     player,
     cns,
     playerHint
-} from "./element.js";
+} from "./element.js"; 
 
-
-
-// load image
+// DOM elements
+const info = document.getElementById("info");
 const scoreWrapper = document.getElementById("scoreWrapper");
 const score = document.getElementById("score");
-
+const bgCanvas = document.getElementById("bg-canvas");
+const bgc = document.createElement("canvas");
+const bgctx = bgc.getContext("2d");
 
 // add instruction image
-const info = document.getElementById("info");
 info.src = infoImg;
 
+// create new canves
+bgCanvas.appendChild(bgc);
+
+// clean up when tetrimon hits ground
 const clean = () => {
     playground.merge(player);
     playground.sweep(player);
@@ -28,7 +32,7 @@ const clean = () => {
     playerHint.update(player);
 };
 
-
+// draw tetris
 const drawTetris = () => {
     cns.drawRect(tetrisBg, 0, 0, cns.width, cns.height);
     cns.draw(playground);
@@ -37,6 +41,7 @@ const drawTetris = () => {
     cns.draw(player);
 };
 
+// drop tetromino 
 const drop = (callback) => {
     player.pos.y++;
     if(playground.isHit(player).y) {
@@ -50,6 +55,7 @@ const getScore = (element) => {
     element.innerHTML = playground.scoreBoard.total; 
 };
 
+// move tetrimon left or right
 const move = (dir) => {
     player.pos.x += dir;
     if (playground.isHit(player).x) {
@@ -58,6 +64,7 @@ const move = (dir) => {
     playerHint.dropHint(player, playground);
 };
 
+// rotate tetrimon clockwise
 const rotate = (dir) => {
     player.rotate(dir);
     playerHint.rotate(dir);
@@ -70,6 +77,7 @@ const rotate = (dir) => {
     }
 };  
 
+// drop tetrimon to bottom
 const speedyDrop = () => {
     while(!playground.isHit(player).y){
         player.pos.y++; 
@@ -78,8 +86,10 @@ const speedyDrop = () => {
     clean();
 };
 
+// a variable to count when to udpate animation
 let start = new Date().getTime();
 
+// udpate animation
 const update = () => {
     if(playground.over){
         score.innerHTML = "GAME OVER,<br/> press anykey to start";
@@ -97,6 +107,7 @@ const update = () => {
     requestAnimationFrame(update);
 };
 
+// reset and restart game 
 const restart= () => {
     player.reset();  
     score.innerHTML = "";
@@ -105,8 +116,7 @@ const restart= () => {
     update();
 };
 
-
-
+// resize score font if score is high
 const resize = () => {
     let currentSize, step = 2,
         margin = 30,
@@ -123,8 +133,6 @@ const resize = () => {
         score.style.fontSize = defaultFontSize;
     }
 };
-
-
 
 document.addEventListener("keydown", e => {
 
@@ -146,6 +154,13 @@ document.addEventListener("keydown", e => {
 
 });
 
+window.addEventListener("resize", fitSize);
 
+// resize canvas
+function fitSize(){
+    bgctx.canvas.width = document.body.clientWidth;
+    bgctx.canvas.height = document.body.clientHeight;
+}
 
+fitSize();
 update();

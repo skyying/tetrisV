@@ -1,6 +1,4 @@
-import { SIZE } from "./size.js"
-import Piece from "./piece.js";
-import Arean from "./arena.js";
+import { SIZE } from "./size.js";
 import { THEME } from "./theme.js";
 
 export default class CanvasTool {
@@ -26,9 +24,7 @@ export default class CanvasTool {
     draw(piece){
         for(let y = 0; y < piece.matrix.length; y++){
             for(let x = 0; x < piece.matrix[0].length; x++){
-                // console.log(x, y);
                 let val = piece.matrix[y][x];
-                // console.log("piece.pos.x", piece.pos.x );
                 if( val !== 0){
                     this.drawRect(THEME[val], piece.pos.x + x, piece.pos.y + y, 1, 1);
                 }
@@ -36,6 +32,5 @@ export default class CanvasTool {
         }
     }
 }
-
 
 
