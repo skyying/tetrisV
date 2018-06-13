@@ -7,9 +7,10 @@ A tetris game for vim beginner to learn direction movement, using `hjkl` to move
 This game is build with `html5`, `css3`, `javascript es6`.
 
 
-# Screenshot
 [Give it a try](https://skyying.github.io/tetrisV/)
-![TetrisV](images/2018/06/screenshot.png)
+
+# Screenshot
+![TetrisV](images/tetrisv.png)
 
 
 
