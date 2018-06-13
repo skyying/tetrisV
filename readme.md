@@ -8,7 +8,8 @@ This game is build with `html5`, `css3`, `javascript es6`.
 
 
 # Screenshot
-![TetrisV](./images/tetrisv.png)
+[Give it a try](https://skyying.github.io/tetrisV/)
+![TetrisV](images/2018/06/screenshot.png)
 
 
 
